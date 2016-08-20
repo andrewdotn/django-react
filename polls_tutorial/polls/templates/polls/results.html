@@ -1,0 +1,18 @@
+<h1>{{ question.question_text }}</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<table>
+  <tr>
+    <th>Votes</th>
+    <th>Choice</th>
+  </tr>
+  {% for choice in question.choice_set.all %}
+  <tr>
+    <td>{{ choice.votes }}</td>
+    <td>{{ choice.choice_text }}</td>
+  </tr>
+  {% endfor %}
+</table>
+
+<a href="{% url 'polls:detail' question.id %}">Vote again?</a>
