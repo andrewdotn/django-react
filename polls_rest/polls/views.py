@@ -1,12 +1,12 @@
 from django.db.models.expressions import F
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
-
 from rest_framework import viewsets
 
 from .models import Choice, Question
-from .serializers import QuestionSerializer
+from .serializers import ChoiceSerializer, QuestionSerializer
+
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -40,3 +40,7 @@ def vote(request, question_id):
 class QuestionViewSet(viewsets.ModelViewSet):
     queryset = Question.objects.all()
     serializer_class = QuestionSerializer
+
+class ChoiceViewSet(viewsets.ModelViewSet):
+    queryset = Choice.objects.all()
+    serializer_class = ChoiceSerializer
