@@ -3,7 +3,10 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
+from rest_framework import viewsets
+
 from .models import Choice, Question
+from .serializers import QuestionSerializer
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
@@ -33,3 +36,7 @@ def vote(request, question_id):
         selected_choice.save()
         return HttpResponseRedirect(reverse('polls:results',
                                             args=(question.id,)))
+
+class QuestionViewSet(viewsets.ModelViewSet):
+    queryset = Question.objects.all()
+    serializer_class = QuestionSerializer
