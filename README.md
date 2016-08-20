@@ -14,3 +14,10 @@ To get it running on your machine:
  5. `./manage.py runserver`
  6. Visit http://localhost:8000/admin/ to create some questions
  7. Vote on them from http://localhost:8000/polls/
+
+### `polls_rest`
+
+`polls_tutorial` augmented with a REST API for getting poll data, and
+voting on polls, by following the [Django REST framework quickstart][qs].
+
+[qs]: http://www.django-rest-framework.org/tutorial/quickstart/
