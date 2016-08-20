@@ -1,6 +1,11 @@
-from django.conf.urls import url
+from django.conf.urls import include, url
+
+from rest_framework import routers
 
 from . import views
+
+api_router = routers.DefaultRouter()
+api_router.register(r'questions', views.QuestionViewSet)
 
 app_name = 'polls'
 urlpatterns = [
@@ -9,5 +14,5 @@ urlpatterns = [
     url(r'^(?P<question_id>[0-9]+)/results/$', views.results, name='results'),
     url(r'^(?P<question_id>[0-9]+)/vote/$', views.vote, name='vote'),
 
-    url(r'^api/questions/$', views.QuestionViewSet.as_view({'get': 'list'}))
+    url(r'^api/', include(api_router.urls))
 ]
