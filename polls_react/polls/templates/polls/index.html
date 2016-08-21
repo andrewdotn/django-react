@@ -13,16 +13,40 @@
 <script type="text/babel">
     var pollsData = {{ polls_data|json }};
 
+    var ChoiceRow = React.createClass({
+        render: function() {
+            return (
+                    <tr>
+                        <td>{ this.props.data.votes }</td>
+                        <td>{ this.props.data.choice_text }</td>
+                    </tr>
+            );
+        }
+    });
+
     var Question = React.createClass({
         render: function() {
-            return (<li>{ this.props.data.question_text }</li>);
+            var answerNodes = this.props.data.choice_set.map(function(choice) {
+                return <ChoiceRow data={choice} key={choice.url}/>
+            });
+            return (<li>
+                { this.props.data.question_text }
+                <table>
+                    <thead>
+                    <tr><th>Votes</th><th>Choice</th></tr>
+                    </thead>
+                    <tbody>
+                    { answerNodes }
+                    </tbody>
+                </table>
+                </li>);
         }
     });
 
     var PollBox = React.createClass({
         render: function() {
             var questionNodes = this.props.data.map(function(question) {
-                return (<Question data={question}/>);
+                return (<Question data={question} key={question.url}/>);
             });
             return (
                     <ul>{ questionNodes }</ul>
