@@ -12,16 +12,26 @@
 <script src="{% static 'jquery.min.js' %}"></script>
 <script type="text/babel">
     var pollsData = {{ polls_data|json }};
-    var PollBox = React.createClass({
+
+    var Question = React.createClass({
         render: function() {
-            return (
-                    <textarea cols="80" rows="25"
-                              value={JSON.stringify(pollsData)} readOnly>
-                    </textarea>);
+            return (<li>{ this.props.data.question_text }</li>);
         }
     });
+
+    var PollBox = React.createClass({
+        render: function() {
+            var questionNodes = this.props.data.map(function(question) {
+                return (<Question data={question}/>);
+            });
+            return (
+                    <ul>{ questionNodes }</ul>
+            );
+        }
+    });
+
     ReactDOM.render(
-            <PollBox/>,
+            <PollBox data={pollsData}/>,
             document.getElementById('pollsContent')
     );
 </script>
