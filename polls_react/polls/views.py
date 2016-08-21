@@ -1,5 +1,6 @@
 from django.db.models.expressions import F
 from django.http import HttpResponseRedirect
+from django.middleware.csrf import get_token
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
 
@@ -16,7 +17,8 @@ def index(request):
                                     context={'request': request}).data
     return render(request, 'polls/index.html', {
         'latest_question_list': latest_question_list,
-        'polls_data': polls_data
+        'polls_data': polls_data,
+        'csrf_token': get_token(request)
     })
 
 def detail(request, question_id):
