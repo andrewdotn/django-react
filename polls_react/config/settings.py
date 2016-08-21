@@ -45,6 +45,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'polls.apps.PollsConfig',
 
+    'argonauts', # contains JSON template tag
     'rest_framework',
 
     'django.contrib.admin',

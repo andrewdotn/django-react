@@ -12,8 +12,11 @@ from .serializers import ChoiceSerializer, QuestionSerializer
 
 def index(request):
     latest_question_list = Question.objects.order_by('-pub_date')[:5]
+    polls_data = QuestionSerializer(latest_question_list, many=True,
+                                    context={'request': request}).data
     return render(request, 'polls/index.html', {
-        'latest_question_list': latest_question_list
+        'latest_question_list': latest_question_list,
+        'polls_data': polls_data
     })
 
 def detail(request, question_id):

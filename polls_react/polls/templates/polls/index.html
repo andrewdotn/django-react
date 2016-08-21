@@ -1,3 +1,33 @@
+{% load static %}
+
+{% load argonauts %}
+
+<h1>New style</h1>
+
+<div id=pollsContent></div>
+
+<script src="{% static 'react.js' %}"></script>
+<script src="{% static 'react-dom.js' %}"></script>
+<script src="{% static 'browser.min.js' %}"></script>
+<script src="{% static 'jquery.min.js' %}"></script>
+<script type="text/babel">
+    var pollsData = {{ polls_data|json }};
+    var PollBox = React.createClass({
+        render: function() {
+            return (
+                    <textarea cols="80" rows="25"
+                              value={JSON.stringify(pollsData)} readOnly>
+                    </textarea>);
+        }
+    });
+    ReactDOM.render(
+            <PollBox/>,
+            document.getElementById('pollsContent')
+    );
+</script>
+
+<h1>Old style</h1>
+
 {% if latest_question_list %}
     <ul>
     {% for question in latest_question_list %}
