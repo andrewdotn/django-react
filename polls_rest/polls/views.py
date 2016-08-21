@@ -2,7 +2,9 @@ from django.db.models.expressions import F
 from django.http import HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render
 from django.urls import reverse
+
 from rest_framework import viewsets
+from rest_framework.decorators import detail_route
 
 from .models import Choice, Question
 from .serializers import ChoiceSerializer, QuestionSerializer
@@ -44,3 +46,11 @@ class QuestionViewSet(viewsets.ModelViewSet):
 class ChoiceViewSet(viewsets.ModelViewSet):
     queryset = Choice.objects.all()
     serializer_class = ChoiceSerializer
+
+    # http://www.django-rest-framework.org/api-guide/routers/#extra-link-and-actions
+    @detail_route(['POST'])
+    def increment(self, request, pk):
+        choice = get_object_or_404(Choice, pk=pk)
+        choice.votes = F('votes') + 1
+        choice.save()
+        return self.retrieve(request, pk=pk)
